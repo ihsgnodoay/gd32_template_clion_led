@@ -12,7 +12,7 @@ set(SIZE arm-none-eabi-size)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # project settings
-project(gd32_template_clion C CXX ASM)
+project(gd32_template_clion_led C CXX ASM)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 
@@ -51,19 +51,57 @@ include_directories(
         Firmware/CMSIS
         Firmware/CMSIS/GD/GD32F4xx/Include
         Firmware/GD32F4xx_standard_peripheral/Include
+        Hardware/
+        Hardware/cst816
+        Hardware/iic
+        Hardware/key
+        Hardware/LED
+        Hardware/lvgl_anim
+        Hardware/lvgl_event
+        Hardware/lvgl_layout
+        Hardware/lvgl_scrolling
+        Hardware/lvgl_style
+        Hardware/lvgl_widgets
+        Hardware/pid_ui
+        Hardware/st7789
+        Hardware/timer
+        Hardware/usart0
+        Middlewares/LVGL/GUI/
+        Middlewares/LVGL/GUI/lvgl
+        Middlewares/LVGL/GUI/lvgl/src
+        Middlewares/LVGL/GUI/lvgl/examples/porting
+        Middlewares/LVGL/GUI_APP/demos
         User
         )
 
 add_definitions(
         -DGD32F470
         -DUSE_STDPERIPH_DRIVER
-        )
+        -DNDEBUG
+)
 
 file(GLOB_RECURSE SOURCES
         "startup/startup_gd32f450.S"
 #        "Firmware/CMSIS/GD/GD32F4xx/Source/ARM/startup_gd32f407_427.s"
         "Firmware/CMSIS/GD/GD32F4xx/Source/*.c"
         "Firmware/GD32F4xx_standard_peripheral/Source/*.c"
+        "Hardware/cst816/*.c"
+        "Hardware/iic/*.c"
+        "Hardware/key/*.c"
+        "Hardware/LED/*.c"
+        "Hardware/lvgl_anim/*.c"
+        "Hardware/lvgl_event/*.c"
+        "Hardware/lvgl_layout/*.c"
+        "Hardware/lvgl_scrolling/*.c"
+        "Hardware/lvgl_style/*.c"
+        "Hardware/lvgl_widgets/*.c"
+        "Hardware/pid_ui/*.c"
+        "Hardware/st7789/*.c"
+        "Hardware/timer/*.c"
+        "Hardware/usart0/*.c"
+        "Middlewares/LVGL/GUI/lvgl/src/*.c"
+        "Middlewares/LVGL/GUI/lvgl/examples/porting/*.c"
+        "Middlewares/LVGL/GUI_APP/demos/*.c"
         "User/*.*"
         )
 # 可修改结束

@@ -2,7 +2,7 @@
 
 目录说明：
 - config：配置文件，用于配置编译选项
-- Firmware：gd32f4xx 固件库文件夹，寸法厂商和芯片公司定义标准固件库
+- Firmware：gd32f4xx 标准固件库
     - CMSIS: 核心固件和汇编文件
     - GD32F4xx_standard_peripheral: 固件库
 - Hardware：驱动程序目录，存放开发过程中封装好的的驱动文件，如LED驱动、串口驱动等

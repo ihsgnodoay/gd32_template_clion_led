@@ -7,7 +7,7 @@
 #define BSP_TIMER_RCU  				RCU_TIMER5            // ��ʱ��ʱ��
 #define BSP_TIMER      				TIMER5                // ��ʱ��
 #define BSP_TIMER_IRQ  				TIMER5_DAC_IRQn       // ��ʱ���ж�
-#define BSP_TIMER_IRQHANDLER  TIMER5_DAC_IRQHandler // ��ʱ���жϷ�����
+#define BSP_TIMER_IRQHANDLER        TIMER5_DAC_IRQHandler // ��ʱ���жϷ�����
 
 
 //#define BSP_TIMER_RCU  				RCU_TIMER2					// ��ʱ��ʱ��

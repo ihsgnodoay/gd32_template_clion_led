@@ -1,8 +1,6 @@
-#ifndef __MAIN_H
-#define __MAIN_H
+#ifndef MAIN_H_
+#define MAIN_H_
 
-
-
-#endif /* __MAIN_H */
+#endif /* MAIN_H_ */
 
 

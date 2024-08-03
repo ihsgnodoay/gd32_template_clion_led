@@ -39,23 +39,23 @@ void motor_timer_init(){
 	timer_deinit(TIMER4);
 	timer_struct_para_init(&Timer_ParamType);
 	
-	Timer_ParamType.alignedmode = TIMER_COUNTER_EDGE;//ÅäÖÃÎª±ßÑØ¶ÔÆäÄ£Ê½
-	Timer_ParamType.clockdivision = TIMER_CKDIV_DIV1;//ÅäÖÃËÀÇøÊ±¼äºÍ²ÉÑùÊ±ÖÓ£¨DTS£©Ö®¼äµÄ·ÖÆµÏµÊı
-	Timer_ParamType.counterdirection = TIMER_COUNTER_UP;//ÅäÖÃ¼ÆÊı·½ÏòÎªÏòÉÏ¼ÆÊı
-	Timer_ParamType.period = 7200-1;//ÖÜÆÚ
-	Timer_ParamType.prescaler = 200-1;//Ô¤·ÖÆµ
+	Timer_ParamType.alignedmode = TIMER_COUNTER_EDGE;//é…ç½®ä¸ºè¾¹æ²¿å¯¹å…¶æ¨¡å¼
+	Timer_ParamType.clockdivision = TIMER_CKDIV_DIV1;//é…ç½®æ­»åŒºæ—¶é—´å’Œé‡‡æ ·æ—¶é’Ÿï¼ˆDTSï¼‰ä¹‹é—´çš„åˆ†é¢‘ç³»æ•°
+	Timer_ParamType.counterdirection = TIMER_COUNTER_UP;//é…ç½®è®¡æ•°æ–¹å‘ä¸ºå‘ä¸Šè®¡æ•°
+	Timer_ParamType.period = 7200-1;//å‘¨æœŸ
+	Timer_ParamType.prescaler = 200-1;//é¢„åˆ†é¢‘
 	Timer_ParamType.repetitioncounter = 0;
 	timer_init(TIMER4,&Timer_ParamType);
 	
 
 	timer_channel_output_struct_para_init(&Timer_OC_ParamType);
 	
-	//Timer_OC_ParamType.ocidlestate = TIMER_OC_IDLE_STATE_HIGH;//¿ÕÏĞÊ±Í¨µÀÊä³ö¼«ĞÔ
-	//Timer_OC_ParamType.ocnidlestate = TIMER_OCN_IDLE_STATE_LOW;//¿ÕÏĞÊ±»¥²¹Í¨µÀÊä³ö¼«ĞÔ
-	//Timer_OC_ParamType.ocnpolarity = TIMER_OCN_POLARITY_HIGH;//»¥²¹Í¨µÀÊä³ö¼«ĞÔ
-	Timer_OC_ParamType.ocpolarity = TIMER_OC_POLARITY_HIGH;//Í¨µÀÊä³ö¼«ĞÔ
-	//Timer_OC_ParamType.outputnstate = TIMER_CCXN_DISABLE;//Ê¹ÄÜ»¥²¹Í¨µÀÊä³ö
-	Timer_OC_ParamType.outputstate = TIMER_CCX_ENABLE;//Ê¹ÄÜÍ¨µÀÊä³ö
+	//Timer_OC_ParamType.ocidlestate = TIMER_OC_IDLE_STATE_HIGH;//ç©ºé—²æ—¶é€šé“è¾“å‡ºææ€§
+	//Timer_OC_ParamType.ocnidlestate = TIMER_OCN_IDLE_STATE_LOW;//ç©ºé—²æ—¶äº’è¡¥é€šé“è¾“å‡ºææ€§
+	//Timer_OC_ParamType.ocnpolarity = TIMER_OCN_POLARITY_HIGH;//äº’è¡¥é€šé“è¾“å‡ºææ€§
+	Timer_OC_ParamType.ocpolarity = TIMER_OC_POLARITY_HIGH;//é€šé“è¾“å‡ºææ€§
+	//Timer_OC_ParamType.outputnstate = TIMER_CCXN_DISABLE;//ä½¿èƒ½äº’è¡¥é€šé“è¾“å‡º
+	Timer_OC_ParamType.outputstate = TIMER_CCX_ENABLE;//ä½¿èƒ½é€šé“è¾“å‡º
 	
 	
 
@@ -63,13 +63,13 @@ void motor_timer_init(){
 	timer_channel_output_config(TIMER4,TIMER_CH_3,&Timer_OC_ParamType);
 	
 	
-	timer_channel_output_pulse_value_config(TIMER4, TIMER_CH_2, 0);//±È½Ï¼Ä´æÆ÷µÄÊıÖµ
-	timer_channel_output_pulse_value_config(TIMER4, TIMER_CH_3, 0);//±È½Ï¼Ä´æÆ÷µÄÊıÖµ
+	timer_channel_output_pulse_value_config(TIMER4, TIMER_CH_2, 0);//æ¯”è¾ƒå¯„å­˜å™¨çš„æ•°å€¼
+	timer_channel_output_pulse_value_config(TIMER4, TIMER_CH_3, 0);//æ¯”è¾ƒå¯„å­˜å™¨çš„æ•°å€¼
 	
 	
 
-	timer_channel_output_mode_config(TIMER4,TIMER_CH_2,TIMER_OC_MODE_PWM0);//ÅäÖÃÍ¨µÀÊä³öÄ£Ê½
-	timer_channel_output_mode_config(TIMER4,TIMER_CH_3,TIMER_OC_MODE_PWM0);//ÅäÖÃÍ¨µÀÊä³öÄ£Ê½
+	timer_channel_output_mode_config(TIMER4,TIMER_CH_2,TIMER_OC_MODE_PWM0);//é…ç½®é€šé“è¾“å‡ºæ¨¡å¼
+	timer_channel_output_mode_config(TIMER4,TIMER_CH_3,TIMER_OC_MODE_PWM0);//é…ç½®é€šé“è¾“å‡ºæ¨¡å¼
 	
 	
 	timer_channel_output_shadow_config(TIMER4,TIMER_CH_2,TIMER_OC_SHADOW_DISABLE);
@@ -117,7 +117,7 @@ void motor520_test(){
 
 
 void motor_init(){
-	// ×ó±ßµç»ú
+	// å·¦è¾¹ç”µæœº
 	motor_gpio_init();	
 	
 	

@@ -7,4 +7,6 @@
 
 void gpio_config_PD5(void);
 
+void gpio_config_PA5(void);
+
 #endif

@@ -28,7 +28,7 @@ void send_string(uint8_t*);
 
 #if USART0_RX_ENABLE
 /* Ω” ‹ */
-extern void usart0_recv(uint8_t* data, uint32_t len);
+extern void usart0_rec(uint8_t* data, uint32_t len);
 #endif
 
 #endif

@@ -15,18 +15,18 @@ void battery_adc_config(void){
     /* reset ADC */
     adc_deinit();
     /* configure the ADC  mode */
-    adc_sync_mode_config(ADC_SYNC_MODE_INDEPENDENT); // ËùÓĞADC¶¼¹¤×÷ÔÚ¶ÀÁ¢Ä£Ê½
+    adc_sync_mode_config(ADC_SYNC_MODE_INDEPENDENT); // æ‰€æœ‰ADCéƒ½å·¥ä½œåœ¨ç‹¬ç«‹æ¨¡å¼
     
     /* ADC contineous function disable */
-    adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, DISABLE); // ¹Ø±ÕÁ¬ĞøÄ£Ê½
+    adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, DISABLE); // å…³é—­è¿ç»­æ¨¡å¼
     /* ADC scan mode disable */
-    adc_special_function_config(ADC0, ADC_SCAN_MODE, DISABLE); // ¹Ø±ÕÉ¨ÃèÄ£Ê½
+    adc_special_function_config(ADC0, ADC_SCAN_MODE, DISABLE); // å…³é—­æ‰«ææ¨¡å¼
     
     /* ADC data alignment config */
-    adc_data_alignment_config(ADC0,ADC_DATAALIGN_RIGHT); // LSB¶ÔÆë£¬µÍÎ»¶ÔÆë
+    adc_data_alignment_config(ADC0,ADC_DATAALIGN_RIGHT); // LSBå¯¹é½ï¼Œä½ä½å¯¹é½
     
     /* ADC channel length config */
-    adc_channel_length_config(ADC0,ADC_INSERTED_CHANNEL,1U); //  ADC¹æÔòÍ¨µÀ ³¤¶ÈÎª1
+    adc_channel_length_config(ADC0,ADC_INSERTED_CHANNEL,1U); //  ADCè§„åˆ™é€šé“ é•¿åº¦ä¸º1
 		
 		adc_inserted_channel_config(ADC0, ADC_INSERTED_CHANNEL_0, ADC_CHANNEL_15, ADC_SAMPLETIME_144);
 		
@@ -36,39 +36,39 @@ void battery_adc_config(void){
     /* wait for ADC stability */
     delay_1ms(1);
     /* ADC calibration and reset calibration */
-    adc_calibration_enable(ADC0);  // ADCĞ£×¼
+    adc_calibration_enable(ADC0);  // ADCæ ¡å‡†
     /* wait for ADC stability */
     delay_1ms(1);
 		
-		/* adc Òı½Å³õÊ¼»¯ */
+		/* adc å¼•è„šåˆå§‹åŒ– */
 		battery_adc_gpio_init();
 }
 
-/* ADCµÄ¸½¼Ó¹¦ÄÜ ÓÅÏÈÓÚÆÕÍ¨GPIO  */
+/* ADCçš„é™„åŠ åŠŸèƒ½ ä¼˜å…ˆäºæ™®é€šGPIO  */
  void battery_adc_gpio_init(void)
 {
 	
 		/* enable the clock */
     rcu_periph_clock_enable(RCU_GPIOC);
-    /* configure GPIO port ¸½¼Ó¹¦ÄÜĞèÒªÅäÖÃÎª GPIO_MODE_ANALOG */ 
+    /* configure GPIO port é™„åŠ åŠŸèƒ½éœ€è¦é…ç½®ä¸º GPIO_MODE_ANALOG */ 
     gpio_mode_set(GPIOC, GPIO_MODE_ANALOG, GPIO_PUPD_NONE,GPIO_PIN_5);
 }
 
 void battery_adc_scan(void){
-	batteryValue = battery_adc_sample(BATTERY_ADC_CHANNEL);  // ²ÉÑù
+	batteryValue = battery_adc_sample(BATTERY_ADC_CHANNEL);  // é‡‡æ ·
 }
 
 /*!
-    \brief      ADC channel sample  ADCÍ¨µÀ²ÉÑù
+    \brief      ADC channel sample  ADCé€šé“é‡‡æ ·
     \param[in]  none
     \param[out] none
     \retval     none
 */
 uint16_t battery_adc_sample(uint8_t channel){
    /* ADC regular channel config */
-    adc_routine_channel_config(ADC0, 0U, channel, ADC_SAMPLETIME_15); // 15¸ö²ÉÑùÖÜÆÚ 
+    adc_routine_channel_config(ADC0, 0U, channel, ADC_SAMPLETIME_15); // 15ä¸ªé‡‡æ ·å‘¨æœŸ 
     /* ADC software trigger enable */
-    adc_software_trigger_enable(ADC0, ADC_ROUTINE_CHANNEL); // ADCÈí¼ş´¥·¢Ê¹ÄÜ
+    adc_software_trigger_enable(ADC0, ADC_ROUTINE_CHANNEL); // ADCè½¯ä»¶è§¦å‘ä½¿èƒ½
 
     /* wait the end of conversion flag */
     while(!adc_flag_get(ADC0, ADC_FLAG_EOC));
@@ -81,14 +81,14 @@ float bsp_battery_get_voltage(){
 	 /* ADC software trigger enable */
 	adc_software_trigger_enable(ADC0, ADC_INSERTED_CHANNEL);
 	/* delay a time in milliseconds */
-	// µÈ´ı×ª»»Íê³É
+	// ç­‰å¾…è½¬æ¢å®Œæˆ
 	//while(!adc_flag_get(ADC0,ADC_FLAG_EOIC));
 	
-	// Çå³ş×ª»»Íê³É±êÖ¾Î»
+	// æ¸…æ¥šè½¬æ¢å®Œæˆæ ‡å¿—ä½
 	//adc_flag_clear(ADC0,ADC_FLAG_EOIC);
 	
 	uint16_t value = adc_inserted_data_read(ADC0,ADC_INSERTED_CHANNEL_0);
-	/* Êı¾İ×ª»»  */
+	/* æ•°æ®è½¬æ¢  */
 	float vref_value = (value * 3.3 / 4096*5);
 	
 	return vref_value;

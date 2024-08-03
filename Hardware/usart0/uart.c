@@ -1,7 +1,7 @@
 /*!
  * @file uart.c
  *
- * @brief ´®¿ÚÇı¶¯
+ * @brief ä¸²å£é©±åŠ¨
  *
  * @author GD32E50x
  * @version V1.0
@@ -10,76 +10,77 @@
 #include "uart.h"
 
 /*!
- * @brief UART GPIO ³õÊ¼»¯
+ * @brief UART GPIO åˆå§‹åŒ–
  */
 void uart_gpio_init_config(void)
 {
-	/* ÅäÖÃÊ±ÖÓ */
+	/* é…ç½®æ—¶é’Ÿ */
 	rcu_periph_clock_enable(UART_TX_PORT_RCU);
 	rcu_periph_clock_enable(UART_RX_PORT_RCU);
 
-	/* ÅäÖÃÄ£Ê½ */
+	/* é…ç½®æ¨¡å¼ */
 	gpio_mode_set(UART_TX_PORT, GPIO_MODE_AF, GPIO_PUPD_NONE, UART_TX_PIN);
 	gpio_mode_set(UART_RX_PORT, GPIO_MODE_AF, GPIO_PUPD_NONE, UART_RX_PIN);
 
-	/*ÅäÖÃ¸´ÓÃÄ£Ê½*/
+	/*é…ç½®å¤ç”¨æ¨¡å¼*/
 	gpio_af_set(UART_TX_PORT, GPIO_AF_7, UART_TX_PIN);
 	gpio_af_set(UART_RX_PORT, GPIO_AF_7, UART_RX_PIN);
 
-	/* ÅäÖÃÊä³öÄ£Ê½ */
+	/* é…ç½®è¾“å‡ºæ¨¡å¼ */
 	gpio_output_options_set(UART_TX_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, UART_TX_PIN);
 	gpio_output_options_set(UART_RX_PORT, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, UART_RX_PIN);
 
 }
 
 /*!
- * @brief ³õÊ¼»¯´®¿Ú
- * ÅäÖÃ²¨ÌØÂÊ
+ * @brief åˆå§‹åŒ–ä¸²å£
+ * é…ç½®æ³¢ç‰¹ç‡
  */
 void uart_config(void)
 {
+	uart_gpio_init_config();
 
-	/* Ê¹ÄÜ´®¿ÚÊ±ÖÓ */
+	/* ä½¿èƒ½ä¸²å£æ—¶é’Ÿ */
 	rcu_periph_clock_enable(RCU_USART0);
 
-	/* USART¸´Î» */
+	/* USARTå¤ä½ */
 	usart_deinit(USART0);
 
-	/* ÅäÖÃ´®¿Ú²¨ÌØÂÊ */
+	/* é…ç½®ä¸²å£æ³¢ç‰¹ç‡ */
 	usart_baudrate_set(USART0, 115200U);
 
-	/* Ğ£ÑéÎ»*/
+	/* æ ¡éªŒä½*/
 	usart_parity_config(USART0, USART_PM_NONE);
 
-	/* Í£Ö¹Î» */
+	/* åœæ­¢ä½ */
 	usart_stop_bit_set(USART0, USART_STB_1BIT);
 
-	/* ÏÈËÍ¸ßÎ»»¹ÊÇµÍÎ» */
+	/* å…ˆé€é«˜ä½è¿˜æ˜¯ä½ä½ */
 	usart_data_first_config(USART0, USART_MSBF_LSB);
 
-	/* ·¢ËÍ¹¦ÄÜÅäÖÃ*/
+	/* å‘é€åŠŸèƒ½é…ç½®*/
 	usart_transmit_config(USART0, USART_TRANSMIT_ENABLE);
 
 #if USART0_RX_ENABLE
-	/* ½ÓÊÕ¹¦ÄÜÅäÖÃ */
+	/* æ¥æ”¶åŠŸèƒ½é…ç½® */
 	usart_receive_config(USART0, USART_RECEIVE_ENABLE);
-	/* ½ÓÊÕÖĞ¶ÏÅäÖÃ */
+	/* æ¥æ”¶ä¸­æ–­é…ç½® */
 	nvic_irq_enable(USART0_IRQn, 2, 2);
 	usart_interrupt_enable(USART0, USART_INT_RBNE);
 	usart_interrupt_enable(USART0, USART_INT_IDLE);
 #endif
 
-	/* Ê¹ÄÜ´®¿Ú */
+	/* ä½¿èƒ½ä¸²å£ */
 	usart_enable(USART0);
 }
 
 
 #if USART0_RX_ENABLE
-/* ½ÓÊÕ»º³åÇø */
+/* æ¥æ”¶ç¼“å†²åŒº */
 uint8_t get_recv_buffer[1024];
 uint32_t g_recv_len = 0;
 
-/*! \brief	´®¿ÚÖĞ¶Ï·şÎñº¯Êı£¬usart0ÖĞ¶ÏÃû³Æ */
+/*! \brief	ä¸²å£ä¸­æ–­æœåŠ¡å‡½æ•°ï¼Œusart0ä¸­æ–­åç§° */
 void USART0_IRQHandler(void)
 {
 	if ((usart_interrupt_flag_get(USART0, USART_INT_FLAG_RBNE)) == SET) {
@@ -89,11 +90,11 @@ void USART0_IRQHandler(void)
 	}
 
 	if (usart_interrupt_flag_get(USART0, USART_INT_FLAG_IDLE) == SET) {
-		/* ¶ÁÈ¡»º´æÇø£¬Çå³ı»º´æÇø */
+		/* è¯»å–ç¼“å­˜åŒºï¼Œæ¸…é™¤ç¼“å­˜åŒº */
 		usart_data_receive(USART0);
 		get_recv_buffer[g_recv_len] = '\0';
 
-		usart0_recv(get_recv_buffer, g_recv_len);
+		usart0_rec(get_recv_buffer, g_recv_len);
 		g_recv_len = 0;
 	}
 
@@ -101,7 +102,7 @@ void USART0_IRQHandler(void)
 #endif
 
 /*!
- * @brief ·¢ËÍÒ»byteÊı¾İ
+ * @brief å‘é€ä¸€byteæ•°æ®
  * @param data
  */
 void send_byte(uint8_t data)
@@ -120,13 +121,22 @@ void send_string(uint8_t *str)
 }
 
 /*!
- * @brief Ê¹ÓÃfputcº¯ÊıÊµÏÖprintf´òÓ¡Êä³ö
- * @param ch Ò»¸ö×Ö·ûÒ»¸ö×Ö·ûµÄ·¢£¬
- * @param f ¹Ì¶¨¸ñÊ½
+ * @brief ä½¿ç”¨fputcå‡½æ•°å®ç°printfæ‰“å°è¾“å‡º
+ * @param ch ä¸€ä¸ªå­—ç¬¦ä¸€ä¸ªå­—ç¬¦çš„å‘ï¼Œ
+ * @param f å›ºå®šæ ¼å¼
  * @return
  */
 int fputc(int ch, FILE *f)
 {
-	send_byte((uint8_t)ch);
+	send_byte((uint8_t) ch);
 	return ch;
 }
+
+/*!
+ *	@brief æ¥å—æ•°æ®
+ */
+void usart0_rec(uint8_t *data, uint32_t len)
+{
+	printf(">> %s\r\n", data);
+}
+

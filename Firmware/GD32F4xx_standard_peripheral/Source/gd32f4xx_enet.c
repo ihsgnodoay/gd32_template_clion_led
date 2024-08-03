@@ -294,7 +294,7 @@ void enet_initpara_config(enet_option_enum option, uint32_t para)
         enet_initpara.halfduplex_param = para;
         break;
     case TIMER_OPTION:
-        /* choose to configure timer_config, and save the configuration parameters */
+        /* choose to configure timer5_config, and save the configuration parameters */
         enet_initpara.option_enable |= (uint32_t)TIMER_OPTION;
         enet_initpara.timer_config = para;
         break;
@@ -594,7 +594,7 @@ ErrStatus enet_init(enet_mediamode_enum mediamode, enet_chksumconf_enum checksum
         ENET_MAC_CFG = reg_value;
     }
 
-    /* configure timer_config related registers */
+    /* configure timer5_config related registers */
     if(RESET != (enet_initpara.option_enable & (uint32_t)TIMER_OPTION)) {
         reg_temp = enet_initpara.timer_config;
 

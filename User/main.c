@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "main.h"
 #include "uart.h"
-#include "gpio_config.h"
 #include "timer.h"
 
 /*!
@@ -12,7 +11,7 @@
 void TIMER5_DAC_IRQHandler(void)
 {
 	if (SET == timer_interrupt_flag_get(TIMER5, TIMER_INT_UP)) {
-//		gpio_bit_toggle(GPIOD, GPIO_PIN_5);
+		gpio_bit_toggle(GPIOD, GPIO_PIN_5);
 		printf("Timer init PD5\r\n");
 	}
 
@@ -35,7 +34,13 @@ int main(void)
 
 	timer5_config();
 
-//	timer1_config();
+	timer1_config();
 
-	while (1) {}
+	uint16_t i;
+	while (1) {
+		for (i = 0; i < 25; ++i) {
+			pwm_update_timer1(i);
+			delay_1ms(50);
+		}
+	}
 }

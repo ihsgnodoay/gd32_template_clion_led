@@ -23,9 +23,9 @@ void timer5_config()
 	timer_struct_para_init(&tps);
 
 	/* 分频系数  240000000 */
-	tps.prescaler = 10000 - 1;
+	tps.prescaler = PRESCALER;
 	/* 周期计数 16bit，不能超过65535，因此被除数不能小于 SystemCoreClock / 65535 */
-	tps.period = SystemCoreClock / 20000 - 1;
+	tps.period = PERIOD;
 	/* 初始化 */
 	timer_init(TIMER5, &tps);
 	nvic_irq_enable(TIMER5_DAC_IRQn, 2, 2);
@@ -44,18 +44,27 @@ void timer1_config(void)
 	timer_parameter_struct tps;
 	timer_struct_para_init(&tps);
 
-	tps.prescaler = 10000 -1;
-	tps.period = SystemCoreClock / 20000 - 1;
+	tps.prescaler = PRESCALER;
+	tps.period = PERIOD;
 	timer_init(TIMER1, &tps);
 
 	timer_oc_parameter_struct tops;
 	timer_channel_output_struct_para_init(&tops);
 	tops.outputnstate = TIMER_CCXN_ENABLE;
 	timer_channel_output_config(TIMER1, TIMER_CH_0, &tops);
-
-//	nvic_irq_enable(TIMER1_IRQn, 2, 2);
-//	timer_interrupt_enable(TIMER1, TIMER_INT_UP);
+	timer_channel_output_mode_config(TIMER1, TIMER_CH_0, TIMER_OC_MODE_PWM0);
 
 	timer_enable(TIMER1);
+}
+
+/*!
+ * @brief 配置占空比
+ * \param duty_cycle 占空比
+ */
+void pwm_update_timer1(float duty_cycle)
+{
+	uint16_t pulse = (uint16_t)(PERIOD + 1) * (uint16_t)(duty_cycle /100) -1;
+
+	timer_channel_output_pulse_value_config(TIMER1, TIMER_CH_0, pulse);
 }
 

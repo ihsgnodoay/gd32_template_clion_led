@@ -7,6 +7,13 @@
 
 void gpio_config_PD5(void);
 
+void gpio_config_PA3(void);
+
 void gpio_config_PA5(void);
 
+void gpio_config_PC6(void);
+
+void gpio_config_PC7(void);
+
+void gpio_config_PC8(void);
 #endif

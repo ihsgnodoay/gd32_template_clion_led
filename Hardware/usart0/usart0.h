@@ -22,7 +22,7 @@
 #define USART0_RX_ENABLE	0
 
 void uart_gpio_init_config(void);
-void uart_config(void);
+void usart0_config(void);
 void send_byte(uint8_t);
 void send_string(uint8_t*);
 

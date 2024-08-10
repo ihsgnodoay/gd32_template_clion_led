@@ -2,6 +2,30 @@
 #include <stdio.h>
 #include "gpio_config.h"
 
+void timer1_config(void)
+{
+	gpio_config_PA5();
+
+	rcu_periph_clock_enable(RCU_TIMER1);
+	timer_deinit(TIMER1);
+	rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);
+	timer_parameter_struct tps;
+	timer_struct_para_init(&tps);
+
+	tps.prescaler = PRESCALER;
+	tps.period = PERIOD;
+
+	timer_init(TIMER1, &tps);
+
+	timer_oc_parameter_struct tops;
+	timer_channel_output_struct_para_init(&tops);
+	tops.outputstate = TIMER_CCX_ENABLE;
+	timer_channel_output_config(TIMER1, TIMER_CH_0, &tops);
+	timer_channel_output_mode_config(TIMER1, TIMER_CH_0, TIMER_OC_MODE_PWM0);
+
+	timer_enable(TIMER1);
+}
+
 /*!
  * @brief 配置定时器
  * @param[in]  none
@@ -34,37 +58,13 @@ void timer5_config()
 	timer_enable(TIMER5);
 }
 
-void timer1_config(void)
-{
-	gpio_config_PA5();
-
-	rcu_periph_clock_enable(RCU_TIMER1);
-	timer_deinit(TIMER1);
-	rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);
-	timer_parameter_struct tps;
-	timer_struct_para_init(&tps);
-
-	tps.prescaler = PRESCALER;
-	tps.period = PERIOD;
-	timer_init(TIMER1, &tps);
-
-	timer_oc_parameter_struct tops;
-	timer_channel_output_struct_para_init(&tops);
-	tops.outputnstate = TIMER_CCXN_ENABLE;
-	timer_channel_output_config(TIMER1, TIMER_CH_0, &tops);
-	timer_channel_output_mode_config(TIMER1, TIMER_CH_0, TIMER_OC_MODE_PWM0);
-
-	timer_enable(TIMER1);
-}
-
 /*!
  * @brief 配置占空比
  * \param duty_cycle 占空比
  */
-void pwm_update_timer1(float duty_cycle)
+void pwm_update_timer1_ch0(float duty_cycle)
 {
-	uint16_t pulse = (uint16_t)(PERIOD + 1) * (uint16_t)(duty_cycle /100) -1;
-
+	uint32_t pulse = ((PERIOD + 1) * (uint32_t) duty_cycle) / 100 - 1;
+	// 更新占空比
 	timer_channel_output_pulse_value_config(TIMER1, TIMER_CH_0, pulse);
 }
-

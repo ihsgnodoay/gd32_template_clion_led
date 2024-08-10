@@ -7,7 +7,7 @@
  * @version V1.0
 */
 #include <stdio.h>
-#include "uart.h"
+#include "usart0.h"
 
 /*!
  * @brief UART GPIO 初始化
@@ -36,7 +36,7 @@ void uart_gpio_init_config(void)
  * @brief 初始化串口
  * 配置波特率
  */
-void uart_config(void)
+void usart0_config(void)
 {
 	uart_gpio_init_config();
 

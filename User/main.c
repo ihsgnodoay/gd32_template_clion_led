@@ -2,11 +2,13 @@
 #include "systick.h"
 #include <stdio.h>
 #include "main.h"
-#include "uart.h"
+#include "usart0.h"
+#include "gpio_config.h"
 #include "timer.h"
 
+
 /*!
- * @brief 定时器Timer5
+ * @brief timer5
  */
 void TIMER5_DAC_IRQHandler(void)
 {
@@ -27,20 +29,13 @@ void TIMER5_DAC_IRQHandler(void)
 int main(void)
 {
 	nvic_priority_group_set(NVIC_PRIGROUP_PRE2_SUB2);
-
 	systick_config();
-
-	uart_config();
-
-	timer5_config();
+	usart0_config();
 
 	timer1_config();
 
-	uint16_t i;
-	while (1) {
-		for (i = 0; i < 25; ++i) {
-			pwm_update_timer1(i);
-			delay_1ms(50);
-		}
+	pwm_update_timer1_ch0(50);
+
+	while(1) {
 	}
 }

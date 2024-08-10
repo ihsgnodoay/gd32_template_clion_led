@@ -32,10 +32,21 @@ int main(void)
 	systick_config();
 	usart0_config();
 
+	timer5_config();
+
 	timer1_config();
 
-	pwm_update_timer1_ch0(50);
+	timer2_config();
 
+	uint32_t i;
 	while(1) {
+		for(i = 0; i < 25; i++) {
+			pwm_update_timer1_ch0(i);
+			pwm_update_timer2_ch0(i);
+			pwm_update_timer2_ch1(i);
+			pwm_update_timer2_ch2(i);
+			delay_1ms(50);
+		}
+		delay_1ms(2000);
 	}
 }

@@ -23,6 +23,9 @@ void gpio_config_PA5(void)
 	gpio_af_set(GPIOA, GPIO_AF_1, GPIO_PIN_5);
 }
 
+/*!
+ * @brief TIMER2_CH_0
+ */
 void gpio_config_PC6(void)
 {
 	rcu_periph_clock_enable(RCU_GPIOC);
@@ -31,6 +34,9 @@ void gpio_config_PC6(void)
 	gpio_af_set(GPIOC, GPIO_AF_2, GPIO_PIN_6);
 }
 
+/*!
+ * @brief TIMER2_CH_1
+ */
 void gpio_config_PC7(void)
 {
 	rcu_periph_clock_enable(RCU_GPIOC);
@@ -39,6 +45,9 @@ void gpio_config_PC7(void)
 	gpio_af_set(GPIOC, GPIO_AF_2, GPIO_PIN_7);
 }
 
+/*!
+ * @brief TIMER2_CH_2
+ */
 void gpio_config_PC8(void)
 {
 	rcu_periph_clock_enable(RCU_GPIOC);

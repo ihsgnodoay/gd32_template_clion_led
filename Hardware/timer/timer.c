@@ -11,10 +11,8 @@ void timer1_config(void)
 	rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);
 	timer_parameter_struct tps;
 	timer_struct_para_init(&tps);
-
 	tps.prescaler = PRESCALER;
 	tps.period = PERIOD;
-
 	timer_init(TIMER1, &tps);
 
 	timer_oc_parameter_struct tops;
@@ -25,6 +23,43 @@ void timer1_config(void)
 
 	timer_enable(TIMER1);
 }
+
+void timer2_config(void)
+{
+	gpio_config_PC6();
+	gpio_config_PC7();
+	gpio_config_PC8();
+
+	rcu_periph_clock_enable(RCU_TIMER2);
+	timer_deinit(TIMER2);
+	rcu_timer_clock_prescaler_config(RCU_TIMER_PSC_MUL4);
+	timer_parameter_struct tps;
+	timer_struct_para_init(&tps);
+	tps.prescaler = PRESCALER;
+	tps.period = PERIOD;
+	timer_init(TIMER2, &tps);
+
+	timer_oc_parameter_struct tops;
+
+	timer_channel_output_struct_para_init(&tops);
+	tops.outputstate = TIMER_CCX_ENABLE;
+	timer_channel_output_config(TIMER2, TIMER_CH_0, &tops);
+	timer_channel_output_mode_config(TIMER2, TIMER_CH_0, TIMER_OC_MODE_PWM0);
+
+	timer_channel_output_struct_para_init(&tops);
+	tops.outputstate = TIMER_CCX_ENABLE;
+	timer_channel_output_config(TIMER2, TIMER_CH_1, &tops);
+	timer_channel_output_mode_config(TIMER2, TIMER_CH_1, TIMER_OC_MODE_PWM0);
+
+	timer_channel_output_struct_para_init(&tops);
+	tops.outputstate = TIMER_CCX_ENABLE;
+	timer_channel_output_config(TIMER2, TIMER_CH_2, &tops);
+	timer_channel_output_mode_config(TIMER2, TIMER_CH_2, TIMER_OC_MODE_PWM0);
+
+	timer_enable(TIMER2);
+}
+
+
 
 /*!
  * @brief 配置定时器
@@ -67,4 +102,37 @@ void pwm_update_timer1_ch0(float duty_cycle)
 	uint32_t pulse = ((PERIOD + 1) * (uint32_t) duty_cycle) / 100 - 1;
 	// 更新占空比
 	timer_channel_output_pulse_value_config(TIMER1, TIMER_CH_0, pulse);
+}
+
+/*!
+ * @brief 配置占空比:TIMER2_CH_0
+ * \param duty_cycle 占空比
+ */
+void pwm_update_timer2_ch0(float duty_cycle)
+{
+	uint32_t pulse = ((PERIOD + 1) * (uint32_t) duty_cycle) / 100 - 1;
+	// 更新占空比
+	timer_channel_output_pulse_value_config(TIMER2, TIMER_CH_0, pulse);
+}
+
+/*!
+ * @brief 配置占空比:TIMER2_CH_1
+ * \param duty_cycle 占空比
+ */
+void pwm_update_timer2_ch1(float duty_cycle)
+{
+	uint32_t pulse = ((PERIOD + 1) * (uint32_t) duty_cycle) / 100 - 1;
+	// 更新占空比
+	timer_channel_output_pulse_value_config(TIMER2, TIMER_CH_1, pulse);
+}
+
+/*!
+ * @brief 配置占空比:TIMER2_CH_1
+ * \param duty_cycle 占空比
+ */
+void pwm_update_timer2_ch2(float duty_cycle)
+{
+	uint32_t pulse = ((PERIOD + 1) * (uint32_t) duty_cycle) / 100 - 1;
+	// 更新占空比
+	timer_channel_output_pulse_value_config(TIMER2, TIMER_CH_2, pulse);
 }
